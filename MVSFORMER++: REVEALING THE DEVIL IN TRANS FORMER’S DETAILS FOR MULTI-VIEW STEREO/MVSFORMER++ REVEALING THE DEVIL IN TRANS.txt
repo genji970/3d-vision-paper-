@@ -1,0 +1,60 @@
+최근 multi view steroe method는 트랜스포머 기반으로 설계되었다. 하지만, 현존하는 접근법들은 다른 mvs module을 염두에 두지 않아서 제한된 depth estimation 능력을 보인다. 
+
+MVS는 reference views와 source views간의 대응점을 정확히 찾아낸다(epipolar lines를 따라서)
+
+
+MVS의 본질은 epipolar lines를 따라 시행되는 feature matching task로 볼수 있다. -> camera poses.
+
+요소들 1) image matching
+	  2) optical flow
+	  3) stereo matching
+
+
+transformer와 MVS learning의 통합을 위한 연구
+1) Tailored attention mechanisms for different MVS modules
+
+
+cost volume regularization : 깊이 추정의 정밀도를 높이기 위한 핵심 단계 중 하나.
+
+cost volume : 여러 뷰(이미지)에서 동일한 픽셀에 대해 다양한 깊이 가정을 두고, 각 깊이에 대한 매칭 비용을 쌓아 만든 3D 텐서.
+
+raw cost volume은 노이즈가 많고 불완전함 -> 이걸 regularize해서 더 정확한 깊이 맵을 얻는다.
+
+reqularization을 통해 공간적 연속성(spatial smoothness)과 문맥 정보(contextual information)를 반영한다
+
+module끼리 다른 feature properties를 가지고 있을 수 있으므로 동일한 attention 매커니즘에 의존하면 안된다.ㅇ
+
+2) Incorporating cross-view information into Pre-trained ViTs
+
+
+다중 시점에 대한 attention을 할때, linear attention mechanism을 사용하는 cross view attention을 점진적으로 늘린다.
+
+
+이 연구에서는, feature aggregation을 근거로한 linear attention이 다양한 이미지 사이즈에 대해 feature encoding 단계에서 매우 놀라운 성능을 보여주었다.
+
+adaptive layer scaling: 각 레이어의 출력을 고정된 값이 아닌, 학습 가능한 파라미터로 스케일링해서 모델이 더 안정적으로 학습하고 더 깊어져도 잘 작동하도록 도와주는 기법
+
+
+
+바닐라 attention은 제한된 길이, 희석 등으로 문제가 있는데 이 논문에서는 FPE를 제안한다. FPE는 글로벌하게 정규화된 3d positional cues를 제공한다. -> 확장된 길이의 3d 시퀀스도 처리 가능하다.
+
+
+여러 개를 제시하는데 그 중에 2)의 경우, SVA는, pre trained DINOv2에 cross view 정보를 통합하는데 참신한 접근방법이다.
+
+
+MVSFormer는 이미지 해상도를 multi scale로 학습함으로써 train과 test데이터간의 해상도괴리 문제 해결하려한다
+
+
+inference를 할때 depth를 예측하는데에temperature based depth 기대 매커니즘을 포함할때 cross entropy 손실을 사용해 model을 최적화한다.
+
+MVSFormer++는 최신 DINOv2를 학습불가능한 VIT 백본으로 활용한다. 
+
+
+
+
+
+
+
+
+
+
