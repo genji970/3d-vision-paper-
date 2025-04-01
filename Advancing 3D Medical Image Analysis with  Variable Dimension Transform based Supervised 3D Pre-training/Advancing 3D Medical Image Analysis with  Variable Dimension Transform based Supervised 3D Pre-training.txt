@@ -1,0 +1,103 @@
+기존 3d medical analysis는 self supervised approache에 의존했다.
+
+pre trained의 weight를 사용하는 전이학습은 표준 방법이다. -> 작은 규모의 의료 데이터셋에 대해 모델 수렴 속도 높이고 성능 올리기 위한 표준 방법
+
+domain shift 문제를 고려해도 여전히 유리하다(natural image로부터 배우는 것이)
+
+
+universal 3D model을 pre train하기 위해 self supervised나 fully supervised model을 제안한다.
+
+
+다양한 proxies 과제를 통해 라벨 없이 3d 표현을 학습하는 self supervised가 활발
+
+
+프록시 과제 : 원래 과제에도 도움이 될 거라고 기대하는 방식. target과제 대신 사용.
+
+cube ordering :  3d 영상을 여러 개의 작은 큐브로 자른 후, 그 순서를 섞은 다음 다시 맞추게 하는 과제.
+
+sota self supervised learning 알고조차도 imagenet pre trained model보다 성능이 못하다.
+
+다양한 모달리티를 포함한, 크고 이질적인 데이터들을 co train(multi domain dataset에서)  -> 여전히 유의미한 훈련을 하기에 턱없이 부족한 데이터양
+
+
+color 정보는 pseudo 3d 구조 정보로 변환된다. -? 3d의 구조적, 문맥적 표현을 학습하는데 쓰인다
+
+high level vision task : 객체 인식, 장면
+
+self supervised와는 대조적으로, 본논문 모델은 작동한다
+
+I3D는 새 축을 따라 K번 반복해 k*k*k 3D convolution layer를 제안한다
+
+kernel by kernel conversion은 layer들간의 상관관계를 파괴할 수 있다. -> 3d representation을 whole network로 보고 학습하는게 훨씬 중요하다.
+
+self.supervised learning의 가장 대표적인 것은, 인공 데이터 생성, image prox task를 construct함으로써(e.g. context restoration)
+
+
+본 논문에서 제안하는 방법론
+
+
+인접한 슬라이스들을 3개씩 묶어 RGB 형식을 만든다. 이렇게 reformulate하면 color는 전혀 다른(natural image와) 정보를 인코딩하지만 여전히 pre trained image net으로부터 benefit을 얻을 수 있다.
+
+즉, 2d image로부터 pseudo 3d image를 얻는다. -> 이 pseudo로부터 얻은 3d convolution kernel들은 복잡한 3d 구조와 textures를 modeling할수 있는 potential을 가지고 있다.
+
+
+B. Architecture design and supervision tasks
+
+z축에 대해서는 다운샘플링할때 stride를 1로 설정해서 깊이를 유지한다. -> 슬라이스 간 간격이 커서 해상도가 낮고 depth자체도 얼마 안되어 3d 학습을 방해한다(깊이가 얼마 안되는것이)
+
+3d feature map에서 depth를 보존하기 위해, zero padding((kernel size - 1)/2)가 사용된다.
+
+
+이미지넷을 pre train할때 보통 label이 하난데 이미지 안엔 여러 객체가 있다. 근데 labeld르 하나만 씀으로써(다른걸 무시) model이 partial image features만 학습해 오히려 object detection등에서 정밀한 predictiond에 성능 저하를 유발하기도 한다.
+
+
+fpn, rpn , rcnn head
+
+
+group convolutional layer : channel을 그룹별로 묶어서 convolution 수행한다. 타 그룹끼리는 연산 공유 없다
+
+
+데이터 부족으로 segmentation task를 supervised pre training task로 수행하지는 않았다.
+
+C. transferring to medical imaging tasks
+
+pre training framework는 model 독립적이며 task 독립적이기도하다.
+
+varaiable dimension transform으로 인풋이 변한다.
+
+(3*1*256*256) -> (3*1*224*224)로 randomly crop한다.
+
+여기서는 batch normalization은 아니고 group normalization을 쓰는데 이건 주로 작은 배치 크기에서도 안정적인 학습을 하기 위해 쓰인다. 
+
+채널을 여러 그룹으로 나누어 정규화하는 기법이다.
+
+
+pseudo 3D : p3d는 3D CONV를 계산하는게아니라 2D CON(1*3*3) -> 공간정보 추출, 1d convolution(3*1*1) -> 시간 정보 추출
+한다 -> 계산,메모리 비용 절감 위해
+
+보통 전 layer들을 fine tune한다
+
+
+최종 output feature maps의 고해상도를 유지하기 위해, 첫 con layer의 stride와 backbone의 3번째 res block의 stride를 1로 맞추었다. 그리고 첫번째 max pooling layer를 제거.
+
+
+Ours와 Ourst-Fix-Res1간에 유의미한 차이가 없다 -> pseudo 3d data가 다른 도메인꺼더라도 추가 튜닝 없이 잘 쓰일 수 있다는것을 증명한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
