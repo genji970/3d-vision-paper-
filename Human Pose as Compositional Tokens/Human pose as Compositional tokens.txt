@@ -32,9 +32,13 @@ stage2에서는, human pose estimation을 분류 테스크로 간주한다. M개
 
 PCT representation의 장점 : 1)은 occlusion많아도 추정 잘함. 2)은 expensive post processing을 요구하지 않음. (UDP 모듈같은) 양자화 에러를 줄이기 위해 heatmap representation을 쓸데 필요한 processing같은 것들. 세번째, 음성이든 2d,3d든 일관성이 있음
 
+3. Pose as Compositional Tokens
 
+compositional encoder = pose를 M개의 토큰 features로 transform
 
+representation은 많은 redundancy를 가진다(각각의 다른 token들이 overlapping joints를 가졌을 수 있기 떄문이다 -> 한마디로 겹친다.) 하지만 redundancy가 개별 parts의 occlusion에 robust한 근거가 된다.
 
+일단 linear layer를 통과시켜 차원 수를 늘리고 그 다음에 MLP Mixer block 시리즈에 넣어서 각기 다른 조인트들의 features를 깊게 fuse한다.
 
 
 
