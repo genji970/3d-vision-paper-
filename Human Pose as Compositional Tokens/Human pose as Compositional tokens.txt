@@ -40,7 +40,16 @@ representation은 많은 redundancy를 가진다(각각의 다른 token들이 ov
 
 일단 linear layer를 통과시켜 차원 수를 늘리고 그 다음에 MLP Mixer block 시리즈에 넣어서 각기 다른 조인트들의 features를 깊게 fuse한다.
 
+VQ-VAE와는 다르게, 잘 정의된 regular data를 인풋으로 받지 않는다.
 
+3.2. Human Pose Estimation
+
+codebook과 decoder는 learned되어야한다. 
+
+hard inference scheme을 soft version으로 바꿔준다.
+
+4.2. inplementation details
+top-down estimation pipeline을 쓴다.
 
 
 
