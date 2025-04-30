@@ -1,0 +1,75 @@
+text-3d data를 얻는 것의 어려움과 3d 데이터 구조의 내재적 irregularity때문에,3d point clouds와 text에 대한 조합된 특징 학습은 어렵다. 이 논문에서는, 리만 기반 multi scale attention resoning network를 제안한다. 
+
+
+추출된 text와 point cloud features는 그들의 개별적인 adaptive feature refiner에 의해 refine된다
+
+또한, 리만 로컬 similarity module과 global pooling similarit module을 사용한다. 
+
+또한, 3d point cloud data의 복잡성을 감안하기 위해 rls는 리만 attention mechanism을 쓴다(내재적 기하 관계를 반영)
+
+명시적인 manifold 정의없이, text-point cloud거리 계산을 나타내는 manifold parameter를 학습한다. 
+
+cross modal retrieval은 multimodal features align하는데 좋다.
+
+유클리디안 기하학에서의 코사인 유사도는 다른 의미를 가진 두개의 벡터를 같은 similarity로 구할 가능성이 있지만 리만 기하학에서, 벡터의 움직임은 manifold의 property를 따른다, 그러므로 이 문제를 해결할 수 있다.
+
+
+텍스트와 기하는 근본적으로 달라 유클리디안 공간은 한계 존재 -> semantic info 포착 잘 못함
+
+point cloud와 text를 각기 다른 manifolds에 projecting함으로써, 저차원 리만 manifolds에서 그들의 내재적 구조를 학습함으로써, local info와 복잡한 구조 학습 가능.
+
+
+논문의 방법론 : input data로부터 relevant feature를 뽑아내기 위해 pretrained CLIP을 쓴다. 
+
+input text -> feature representation(encoder에 의해)는 data의 semantic nuances를 잘 포착한다. 
+
+또한 irregular point cloud data로부터 기하학적, 공간적(geometric, spatial)특성을 잘 포착하는, pointnet을 쓴다. 
+
+convolutional network를 통해 local 유사도를 학습한다 
+
+LRF를 통해 sparse하지만 매우 informative 한 correspondences를 학습한다, 
+
+
+똑같이 feature를 뽑아도, task의 목적에 따라 필요한 feature가 다른데 이걸 refine하는 과정이 필요하고 이걸 여기서는 refiner가 해준다
+
+
+riemann local similarity module
+
+아인슈타인 표기 : sigma(a_i*b_j) = a*b
+
+크로네커 기호 : 같으면 1, 아니면 0
+
+제 2형 크리스토펠 기호 : a방향의 벡터에 b방향으로의 공변미분을 할때 최종적으로 결과 벡터의 방향인 c를 나타내는 기호
+
+
+adaptive feature refiner module(AFR)
+
+각각의 modalities에 대한 feature를 미세 조정해야한다. 그리고 각기 다른 feature공간에 놓인 feature들을 공통의 feature space로 mapping한다. 이로 인해 이후의 단계인 리만 어텐션이 가능해진다. 
+
+
+크리스토펠 기호 : 좌표계에서 벡터를 미분할 때 생기는 보정항이다. 즉, 곡선 공간에서의 벡터 미분을 일반적인 방식으로 하기 위해 도입된 보정 계수임.
+
+곡선좌표계나 곡면 위에서느 ㄴ단순한 미분이 더 이상 의미가 없다 그래서 공변미분이라는 개념이 필요하고 이때 크리스토펠 기호가 벡터 변화량을 보정하는 역할을 한다.
+
+일반적으로 곡률 텐서(riemann curvature tensor)에 쓰인다.
+
+공변미분(covariant derivative)은 미분기하학에서 가장 핵심적인 개념 중 하나이다. 특히 곡선 공간이나 곡률 있는 다양체 위에서 벡터를 미분하고자 할때, 우리가 일반적으로 아는 편미분은 잘 작동하지 않기 때문에 공변미분이라는 개념이 필요하다.
+
+
+rank : 행렬이 가진 선형적으로 독립적인 정보의 양, 즉 독립적인 행이나 열의 개수를 뜻한다. 
+
+어떤 행렬 A의 랭크는, 행공간 또는 열공간의 기저 벡터 개수와 같다. 즉, 선형적인 독립인 행 또는 열의 최대 개수다.
+
+직관적으로는, 행렬이 표현할 수 있는 독립적인 축의 개수다. 예를 들어,행렬이 평면을 3차원 공간에서 표현하려고해도, 실제론느 2차원 평면만 나타낸다면 랭크는 2다.
+
+
+
+
+
+
+
+
+
+
+
+
