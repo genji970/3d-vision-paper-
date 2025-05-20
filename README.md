@@ -16,3 +16,6 @@ paper explanation and use records.(3d vision 논문들 해석, 활용 기록용)
 4. Riemann-based Multi-scale Attention Reasoning Network for Text-3D Retrieval
 
 Wenrui Li1, Wei Han1, Yandu Chen1, Yeyu Chai1, Yidan Lu1, Xingtao Wang12*, Xiaopeng Fan123 1Harbin Institute of Technology 2 Harbin Institute of Technology Suzhou Research Institute 3Peng Cheng Laboratory liwr@stu.hit.edu.cn,2021111641@stu.hit.edu.cn,2021111473@stu.hit.edu.cn,23S136130@stu.hit.edu.cn 24S103311@stu.hit.edu.cn,xtwang@hit.edu.cn,fxp@hit.edu.cn
+
+5. CoShNet: A Hybrid Complex Valued Neural Network using Shearlets
+   Manny Ko, Ujjawal K. Panchal, Héctor Andrade-Loarca, Andres Mendez-Vazquez
