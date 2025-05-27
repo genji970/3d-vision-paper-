@@ -19,3 +19,6 @@ Wenrui Li1, Wei Han1, Yandu Chen1, Yeyu Chai1, Yidan Lu1, Xingtao Wang12*, Xiaop
 
 5. CoShNet: A Hybrid Complex Valued Neural Network using Shearlets
    Manny Ko, Ujjawal K. Panchal, Héctor Andrade-Loarca, Andres Mendez-Vazquez
+
+6. gaussianworld gaussian world model for streaming 3d occupanc prediction
+   Sicheng Zuo* Wenzhao Zheng*,† Yuanhui Huang Jie Zhou Jiwen Lu Department of Automation, Tsinghua University, China
