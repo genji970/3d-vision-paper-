@@ -22,3 +22,5 @@ Wenrui Li1, Wei Han1, Yandu Chen1, Yeyu Chai1, Yidan Lu1, Xingtao Wang12*, Xiaop
 
 6. gaussianworld gaussian world model for streaming 3d occupanc prediction
    Sicheng Zuo* Wenzhao Zheng*,† Yuanhui Huang Jie Zhou Jiwen Lu Department of Automation, Tsinghua University, China
+
+   https://github.com/zuosc19/GaussianWorld
